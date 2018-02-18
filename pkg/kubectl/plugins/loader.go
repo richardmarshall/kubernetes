@@ -66,6 +66,11 @@ func (l *DirectoryPluginLoader) Load() (Plugins, error) {
 		return nil, err
 	}
 
+	base, err = filepath.EvalSymlinks(base)
+	if err != nil {
+		return nil, err
+	}
+
 	// read the base directory tree searching for plugin descriptors
 	// fails silently (descriptors unable to be read or unmarshalled are logged but skipped)
 	err = filepath.Walk(base, func(path string, fileInfo os.FileInfo, walkErr error) error {
